@@ -1834,6 +1834,79 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Editmodal.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Editmodal.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  mounted: function mounted() {//alert(this.list.id)
+  },
+  data: function data() {
+    return {
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+      hide: false,
+      list: JSON.parse(this.playlist),
+      name: JSON.parse(this.playlist).name
+    };
+  },
+  props: ['id', 'playlist'],
+  methods: {
+    closeModal: function closeModal() {
+      this.hide = !this.hide; //this.$emit('modal', this.hide)
+    },
+    updateData: function updateData() {
+      axios.patch('/playlist/' + this.id, {
+        name: this.name
+      }).then(function (res) {
+        alert(res.data);
+      });
+      window.location.href = '/playlist/' + this.id;
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
@@ -1929,10 +2002,18 @@ function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-on
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['modaltype'],
   data: function data() {
     return {
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       playerContent: true,
       hide: false,
       playlist: '',
@@ -1951,8 +2032,17 @@ function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-on
       this.$emit('modal', this.hide);
     },
     submitList: function submitList() {
-      this.$emit('playlist', this.playlist);
-      this.playlist = ''; //this.datalist.push(this.playlist)
+      var _this = this;
+
+      // this.$emit('playlist', this.playlist)
+      // this.playlist = ''
+      //this.datalist.push(this.playlist)
+      axios.post('/playlist', {
+        name: this.playlist
+      }).then(function (res) {
+        _this.playlist = '';
+      });
+      this.$emit('playlist');
     },
     uploadMusic: function uploadMusic() {
       var newUpload = {
@@ -1980,6 +2070,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
 //
 //
 //
@@ -2135,6 +2227,9 @@ __webpack_require__.r(__webpack_exports__);
     Modal: _Modal_vue__WEBPACK_IMPORTED_MODULE_0__.default,
     Playercontent: _Playercontent_vue__WEBPACK_IMPORTED_MODULE_1__.default
   },
+  mounted: function mounted() {
+    this.showData();
+  },
   data: function data() {
     return {
       show: false,
@@ -2145,6 +2240,13 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    showData: function showData() {
+      var _this = this;
+
+      axios.get('/playlist').then(function (res) {
+        _this.datalist = res.data;
+      });
+    },
     toggleMenu: function toggleMenu() {
       this.show = !this.show;
     },
@@ -2155,8 +2257,8 @@ __webpack_require__.r(__webpack_exports__);
       this.modaltype = data;
       this.modalclose = !this.modalclose;
     },
-    submitList: function submitList(value) {
-      this.datalist.push(value);
+    submitList: function submitList() {
+      this.showData();
     },
     uploadMusic: function uploadMusic(value) {
       this.musiclist.push(value); //alert(this.musiclist)
@@ -2194,6 +2296,7 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
 Vue.component('Modal', __webpack_require__(/*! ./components/Modal.vue */ "./resources/js/components/Modal.vue").default);
 Vue.component('Sidebar', __webpack_require__(/*! ./components/Sidebar.vue */ "./resources/js/components/Sidebar.vue").default);
 Vue.component('Playercontent', __webpack_require__(/*! ./components/Playercontent.vue */ "./resources/js/components/Playercontent.vue").default);
+Vue.component('edit-modal', __webpack_require__(/*! ./components/Editmodal.vue */ "./resources/js/components/Editmodal.vue").default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -38150,6 +38253,45 @@ module.exports = function (list, options) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Editmodal.vue":
+/*!***********************************************!*\
+  !*** ./resources/js/components/Editmodal.vue ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Editmodal_vue_vue_type_template_id_e58b78f0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Editmodal.vue?vue&type=template&id=e58b78f0& */ "./resources/js/components/Editmodal.vue?vue&type=template&id=e58b78f0&");
+/* harmony import */ var _Editmodal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Editmodal.vue?vue&type=script&lang=js& */ "./resources/js/components/Editmodal.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _Editmodal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _Editmodal_vue_vue_type_template_id_e58b78f0___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Editmodal_vue_vue_type_template_id_e58b78f0___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Editmodal.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/ExampleComponent.vue":
 /*!******************************************************!*\
   !*** ./resources/js/components/ExampleComponent.vue ***!
@@ -38312,6 +38454,22 @@ component.options.__file = "resources/js/components/Sidebar.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/Editmodal.vue?vue&type=script&lang=js&":
+/*!************************************************************************!*\
+  !*** ./resources/js/components/Editmodal.vue?vue&type=script&lang=js& ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Editmodal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Editmodal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Editmodal.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Editmodal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************!*\
   !*** ./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
@@ -38415,6 +38573,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Editmodal.vue?vue&type=template&id=e58b78f0&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/Editmodal.vue?vue&type=template&id=e58b78f0& ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Editmodal_vue_vue_type_template_id_e58b78f0___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Editmodal_vue_vue_type_template_id_e58b78f0___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Editmodal_vue_vue_type_template_id_e58b78f0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Editmodal.vue?vue&type=template&id=e58b78f0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Editmodal.vue?vue&type=template&id=e58b78f0&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
 /*!*************************************************************************************!*\
   !*** ./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
@@ -38479,6 +38654,175 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Sidebar_vue_vue_type_template_id_81fbb27e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Sidebar_vue_vue_type_template_id_81fbb27e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Sidebar.vue?vue&type=template&id=81fbb27e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Sidebar.vue?vue&type=template&id=81fbb27e&");
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Editmodal.vue?vue&type=template&id=e58b78f0&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Editmodal.vue?vue&type=template&id=e58b78f0& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "button",
+      {
+        staticClass: "mr-1 ml-4 btn btn-success",
+        on: { click: _vm.closeModal }
+      },
+      [_vm._v("Edit")]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.hide,
+            expression: "hide"
+          }
+        ],
+        staticClass: "overlay",
+        on: {
+          click: function($event) {
+            if ($event.target !== $event.currentTarget) {
+              return null
+            }
+            return _vm.closeModal.apply(null, arguments)
+          }
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: " text-center row justify-content-center",
+            on: {
+              click: function($event) {
+                if ($event.target !== $event.currentTarget) {
+                  return null
+                }
+                return _vm.closeModal.apply(null, arguments)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "bg-light col-10 col-md-6" }, [
+              _c(
+                "form",
+                {
+                  attrs: { method: "POST", action: "/playlist/" + _vm.id },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.updateData.apply(null, arguments)
+                    }
+                  }
+                },
+                [
+                  _c("input", {
+                    attrs: { type: "hidden", name: "_token" },
+                    domProps: { value: _vm.csrf }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c(
+                      "h5",
+                      {
+                        staticClass: "modal-title",
+                        attrs: { id: "exampleModalLabel" }
+                      },
+                      [_vm._v("Edit Playlist")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: {
+                          type: "button",
+                          "data-dismiss": "modal",
+                          "aria-label": "Close"
+                        },
+                        on: { click: _vm.closeModal }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("×")
+                        ])
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.name,
+                          expression: "name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { placeholder: "Edit Playlist", type: "text" },
+                      domProps: { value: _vm.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.name = $event.target.value
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-secondary",
+                        attrs: { type: "button", "data-dismiss": "modal" },
+                        on: { click: _vm.closeModal }
+                      },
+                      [_vm._v("Close")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Save changes")]
+                    )
+                  ])
+                ]
+              )
+            ])
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
 
 
 /***/ }),
@@ -38579,225 +38923,265 @@ var render = function() {
             _c("div", { staticClass: "bg-light col-10 col-md-6" }, [
               _vm.modaltype == "upload"
                 ? _c("div", {}, [
-                    _c("div", { staticClass: "modal-header" }, [
-                      _c(
-                        "h5",
-                        {
-                          staticClass: "modal-title",
-                          attrs: { id: "exampleModalLabel" }
-                        },
-                        [_vm._v("Upload Music")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "close",
-                          attrs: {
-                            type: "button",
-                            "data-dismiss": "modal",
-                            "aria-label": "Close"
-                          },
-                          on: { click: _vm.closeModal }
-                        },
-                        [
-                          _c("span", { attrs: { "aria-hidden": "true" } }, [
-                            _vm._v("×")
-                          ])
-                        ]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "modal-body" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.title,
-                            expression: "title"
-                          }
-                        ],
-                        staticClass: "my-2 form-control",
-                        attrs: { placeholder: "Title", type: "text" },
-                        domProps: { value: _vm.title },
+                    _c(
+                      "form",
+                      {
+                        attrs: { method: "POST", action: "/song" },
                         on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.title = $event.target.value
+                          submit: function($event) {
+                            $event.preventDefault()
+                            return _vm.uploadMusic.apply(null, arguments)
                           }
                         }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.artist,
-                            expression: "artist"
-                          }
-                        ],
-                        staticClass: "my-2 form-control",
-                        attrs: { placeholder: "Artist", type: "text" },
-                        domProps: { value: _vm.artist },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                      },
+                      [
+                        _c("div", { staticClass: "modal-header" }, [
+                          _c(
+                            "h5",
+                            {
+                              staticClass: "modal-title",
+                              attrs: { id: "exampleModalLabel" }
+                            },
+                            [_vm._v("Upload Music")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "close",
+                              attrs: {
+                                type: "button",
+                                "data-dismiss": "modal",
+                                "aria-label": "Close"
+                              },
+                              on: { click: _vm.closeModal }
+                            },
+                            [
+                              _c("span", { attrs: { "aria-hidden": "true" } }, [
+                                _vm._v("×")
+                              ])
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "modal-body" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.title,
+                                expression: "title"
+                              }
+                            ],
+                            staticClass: "my-2 form-control",
+                            attrs: { placeholder: "Title", type: "text" },
+                            domProps: { value: _vm.title },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.title = $event.target.value
+                              }
                             }
-                            _vm.artist = $event.target.value
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.album,
-                            expression: "album"
-                          }
-                        ],
-                        staticClass: "my-2 form-control",
-                        attrs: { placeholder: "Album", type: "text" },
-                        domProps: { value: _vm.album },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                          }),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.artist,
+                                expression: "artist"
+                              }
+                            ],
+                            staticClass: "my-2 form-control",
+                            attrs: { placeholder: "Artist", type: "text" },
+                            domProps: { value: _vm.artist },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.artist = $event.target.value
+                              }
                             }
-                            _vm.album = $event.target.value
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.duration,
-                            expression: "duration"
-                          }
-                        ],
-                        staticClass: "my-2 form-control",
-                        attrs: { placeholder: "Duration", type: "text" },
-                        domProps: { value: _vm.duration },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                          }),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.album,
+                                expression: "album"
+                              }
+                            ],
+                            staticClass: "my-2 form-control",
+                            attrs: { placeholder: "Album", type: "text" },
+                            domProps: { value: _vm.album },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.album = $event.target.value
+                              }
                             }
-                            _vm.duration = $event.target.value
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "modal-footer" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-secondary",
-                          attrs: { type: "button", "data-dismiss": "modal" },
-                          on: { click: _vm.closeModal }
-                        },
-                        [_vm._v("Close")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-primary",
-                          attrs: { type: "button" },
-                          on: { click: _vm.uploadMusic }
-                        },
-                        [_vm._v("Save changes")]
-                      )
-                    ])
+                          }),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.duration,
+                                expression: "duration"
+                              }
+                            ],
+                            staticClass: "my-2 form-control",
+                            attrs: { placeholder: "Duration", type: "text" },
+                            domProps: { value: _vm.duration },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.duration = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "modal-footer" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-secondary",
+                              attrs: {
+                                type: "button",
+                                "data-dismiss": "modal"
+                              },
+                              on: { click: _vm.closeModal }
+                            },
+                            [_vm._v("Close")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-primary",
+                              attrs: { type: "submit" }
+                            },
+                            [_vm._v("Save changes")]
+                          )
+                        ])
+                      ]
+                    )
                   ])
                 : _vm._e(),
               _vm._v(" "),
               _vm.modaltype == "playlist"
                 ? _c("div", {}, [
-                    _c("div", { staticClass: "modal-header" }, [
-                      _c(
-                        "h5",
-                        {
-                          staticClass: "modal-title",
-                          attrs: { id: "exampleModalLabel" }
-                        },
-                        [_vm._v("Create Playlist")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "close",
-                          attrs: {
-                            type: "button",
-                            "data-dismiss": "modal",
-                            "aria-label": "Close"
-                          },
-                          on: { click: _vm.closeModal }
-                        },
-                        [
-                          _c("span", { attrs: { "aria-hidden": "true" } }, [
-                            _vm._v("×")
-                          ])
-                        ]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "modal-body" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.playlist,
-                            expression: "playlist"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { placeholder: "Add Playlist", type: "text" },
-                        domProps: { value: _vm.playlist },
+                    _c(
+                      "form",
+                      {
+                        attrs: { method: "POST", action: "/playlist" },
                         on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.playlist = $event.target.value
+                          submit: function($event) {
+                            $event.preventDefault()
+                            return _vm.submitList.apply(null, arguments)
                           }
                         }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "modal-footer" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-secondary",
-                          attrs: { type: "button", "data-dismiss": "modal" },
-                          on: { click: _vm.closeModal }
-                        },
-                        [_vm._v("Close")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-primary",
-                          attrs: { type: "button" },
-                          on: { click: _vm.submitList }
-                        },
-                        [_vm._v("Save changes")]
-                      )
-                    ])
+                      },
+                      [
+                        _c("input", {
+                          attrs: { type: "hidden", name: "_token" },
+                          domProps: { value: _vm.csrf }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "modal-header" }, [
+                          _c(
+                            "h5",
+                            {
+                              staticClass: "modal-title",
+                              attrs: { id: "exampleModalLabel" }
+                            },
+                            [_vm._v("Create Playlist")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "close",
+                              attrs: {
+                                type: "button",
+                                "data-dismiss": "modal",
+                                "aria-label": "Close"
+                              },
+                              on: { click: _vm.closeModal }
+                            },
+                            [
+                              _c("span", { attrs: { "aria-hidden": "true" } }, [
+                                _vm._v("×")
+                              ])
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "modal-body" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.playlist,
+                                expression: "playlist"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              placeholder: "Add Playlist",
+                              type: "text"
+                            },
+                            domProps: { value: _vm.playlist },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.playlist = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "modal-footer" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-secondary",
+                              attrs: {
+                                type: "button",
+                                "data-dismiss": "modal"
+                              },
+                              on: { click: _vm.closeModal }
+                            },
+                            [_vm._v("Close")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-primary",
+                              attrs: { type: "submit" }
+                            },
+                            [_vm._v("Save changes")]
+                          )
+                        ])
+                      ]
+                    )
                   ])
                 : _vm._e()
             ])
@@ -38887,7 +39271,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Album")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Duration")])
+        _c("th", [_vm._v("Duration")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
       ])
     ])
   },
@@ -38906,7 +39292,9 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("td", [_vm._v("Some album")]),
       _vm._v(" "),
-      _c("td", [_vm._v("3:45")])
+      _c("td", [_vm._v("3:45")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("delete")])
     ])
   },
   function() {
@@ -39084,7 +39472,9 @@ var render = function() {
                 _vm._v(" "),
                 _vm._l(_vm.datalist, function(list) {
                   return _c("div", { staticClass: "m-0 p-0" }, [
-                    _c("a", [_vm._v(_vm._s(list))])
+                    _c("a", { attrs: { href: "playlist/" + list.id } }, [
+                      _vm._v(_vm._s(list.name))
+                    ])
                   ])
                 })
               ],

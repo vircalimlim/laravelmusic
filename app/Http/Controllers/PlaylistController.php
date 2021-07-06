@@ -14,7 +14,7 @@ class PlaylistController extends Controller
      */
     public function index()
     {
-        //
+        return Playlist::get();
     }
 
     /**
@@ -35,7 +35,12 @@ class PlaylistController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //return "hello";
+        $data = $request->validate([
+          'name' => 'required'
+          ]);
+        Playlist::create($data);
+        return ['status' => 'success'];
     }
 
     /**
@@ -44,9 +49,10 @@ class PlaylistController extends Controller
      * @param  \App\Models\Playlist  $playlist
      * @return \Illuminate\Http\Response
      */
-    public function show(Playlist $playlist)
+    public function show(Playlist $id)
     {
-        //
+        $playlist = $id;
+        return view('Playlist.show', compact('playlist'));
     }
 
     /**
@@ -67,9 +73,13 @@ class PlaylistController extends Controller
      * @param  \App\Models\Playlist  $playlist
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Playlist $playlist)
+    public function update(Request $request, Playlist $id)
     {
-        //
+        $data = $request->validate([
+          'name' => 'required'
+          ]);
+        $id->update($data);
+        return "success ";
     }
 
     /**
@@ -78,8 +88,9 @@ class PlaylistController extends Controller
      * @param  \App\Models\Playlist  $playlist
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Playlist $playlist)
+    public function destroy(Playlist $id)
     {
-        //
+        $id->delete();
+        return redirect('/');
     }
 }

@@ -13,6 +13,7 @@
                             <th>Artist</th>
                             <th>Album</th>
                             <th>Duration</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -22,6 +23,7 @@
                             <td>Some artist</td>
                             <td>Some album</td>
                             <td>3:45</td>
+                            <td>delete</td>
                         </tr>
                         <tr>
                             <td align="center"><i class="fas fa-play"></i></td>

@@ -28,7 +28,7 @@
             <a>Playlist 4</a>
         </div>
         <div class="m-0 p-0" v-for="list in datalist">
-          <a>{{list}}</a>
+          <a :href="'playlist/'+list.id">{{list.name}}</a>
         </div>
 
     </div>
@@ -64,6 +64,10 @@ import Playercontent from './Playercontent.vue'
       Playercontent
     },
     
+    mounted(){
+      this.showData()
+    },
+    
     data(){
       return{
         show: false,
@@ -75,6 +79,13 @@ import Playercontent from './Playercontent.vue'
     },
     
     methods:{
+      showData(){
+        axios.get('/playlist')
+        .then(res => {
+          this.datalist = res.data
+        })
+      },
+      
       toggleMenu(){
         this.show = !this.show
       },
@@ -86,8 +97,8 @@ import Playercontent from './Playercontent.vue'
         this.modaltype = data
         this.modalclose = !this.modalclose
       },
-      submitList(value){
-        this.datalist.push(value)
+      submitList(){
+        this.showData()
       },
       
       uploadMusic(value){

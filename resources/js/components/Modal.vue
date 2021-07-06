@@ -6,6 +6,8 @@
         
 
      <div v-if="modaltype == 'upload'" class="">
+       <form @submit.prevent="uploadMusic" method="POST" action="/song">
+         
         <div class="modal-header">
            <h5 class="modal-title" id="exampleModalLabel">Upload Music</h5>
           
@@ -19,12 +21,16 @@
           </div>
           
           <div class="modal-footer"> <button @click="closeModal" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button @click="uploadMusic" type="button" class="btn btn-primary">Save changes</button> 
+            <button type="submit" class="btn btn-primary">Save changes</button> 
 
         </div> 
+        </form>
       </div>
       
      <div v-if="modaltype == 'playlist'" class="">
+       <form @submit.prevent="submitList" method="POST" action="/playlist">
+        <input type="hidden" name="_token" :value="csrf">
+        
         <div class="modal-header">
            <h5 class="modal-title" id="exampleModalLabel">Create Playlist</h5>
            <button @click="closeModal" type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
@@ -33,9 +39,10 @@
             <input placeholder="Add Playlist" v-model="playlist" class="form-control" type="text">
           </div>
           <div class="modal-footer"> <button @click="closeModal" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button @click="submitList" type="button" class="btn btn-primary">Save changes</button> 
+            <button type="submit" class="btn btn-primary">Save changes</button> 
 
         </div> 
+        </form>
       </div>
 
       </div>
@@ -53,6 +60,7 @@
     
     data(){
       return{
+        csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         playerContent: true,
         hide: false,
         playlist: '',
@@ -73,9 +81,17 @@
       },
       
       submitList(){
-        this.$emit('playlist', this.playlist)
-        this.playlist = ''
+       // this.$emit('playlist', this.playlist)
+       // this.playlist = ''
         //this.datalist.push(this.playlist)
+        axios.post('/playlist', {
+          name: this.playlist
+        })
+        .then(res => {
+          this.playlist = ''
+        })
+        
+        this.$emit('playlist')
       },
       
       uploadMusic(){
