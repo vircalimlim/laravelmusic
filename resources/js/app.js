@@ -26,6 +26,8 @@ Vue.component('Sidebar', require('./components/Sidebar.vue').default);
 Vue.component('Playercontent', require('./components/Playercontent.vue').default);
 
 Vue.component('edit-modal', require('./components/Editmodal.vue').default);
+
+Vue.component('playlist-song', require('./components/Playlistsong.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

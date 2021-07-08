@@ -66,6 +66,7 @@ import Playercontent from './Playercontent.vue'
     
     mounted(){
       this.showData()
+      this.showMusic()
     },
     
     data(){
@@ -86,6 +87,13 @@ import Playercontent from './Playercontent.vue'
         })
       },
       
+      showMusic(){
+        axios.get('/song')
+        .then(res => {
+          this.musiclist = res.data
+        })
+      },
+      
       toggleMenu(){
         this.show = !this.show
       },
@@ -101,9 +109,10 @@ import Playercontent from './Playercontent.vue'
         this.showData()
       },
       
-      uploadMusic(value){
-        this.musiclist.push(value)
+      uploadMusic(){
+        //this.musiclist.push(value)
         //alert(this.musiclist)
+        this.showMusic()
       }
     }
   }

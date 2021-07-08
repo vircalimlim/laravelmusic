@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Playlist;
+use App\Models\Song;
 use Illuminate\Http\Request;
 
 class PlaylistController extends Controller
@@ -52,7 +53,9 @@ class PlaylistController extends Controller
     public function show(Playlist $id)
     {
         $playlist = $id;
-        return view('Playlist.show', compact('playlist'));
+        $songs = Song::get();
+
+        return view('Playlist.show', compact(['playlist', 'songs']));
     }
 
     /**

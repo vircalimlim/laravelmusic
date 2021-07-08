@@ -7,7 +7,8 @@
 
      <div v-if="modaltype == 'upload'" class="">
        <form @submit.prevent="uploadMusic" method="POST" action="/song">
-         
+        <input type="hidden" name="_token" :value="csrf">
+        
         <div class="modal-header">
            <h5 class="modal-title" id="exampleModalLabel">Upload Music</h5>
           
@@ -16,7 +17,6 @@
           <div class="modal-body">
             <input class="my-2 form-control" placeholder="Title" type="text" v-model="title">
             <input placeholder="Artist" class="my-2 form-control" type="text" v-model="artist">
-            <input placeholder="Album" class="my-2 form-control" type="text" v-model="album">
             <input placeholder="Duration" class="my-2 form-control" type="text" v-model="duration">
           </div>
           
@@ -96,7 +96,7 @@
       
       uploadMusic(){
         
-        const newUpload = {
+       /* const newUpload = {
           title: this.title,
           artist: this.artist,
           album: this.album,
@@ -105,8 +105,20 @@
         
         this.$emit('upload', newUpload)
         
-        newUpload = {}
+        newUpload = {}*/
+        axios.post('/song', {
+          title: this.title,
+          artist: this.artist,
+          length: this.duration,
+        })
+        .then(res => {
+          alert(res.data)
+          this.title = ''
+          this.artist = ''
+          this.duration = ''
+        })
         
+          this.$emit('upload')
       },
       
     }

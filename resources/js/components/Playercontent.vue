@@ -5,49 +5,32 @@
         <div class="mt-5">
             <h1 class="">All Songs</h1>
             <div class="table-responsive">
+              
+                <form method="POST" :action="'/song/' + id">
                 <table>
                     <thead>
                         <tr>
                             <th></th>
                             <th>Title</th>
                             <th>Artist</th>
-                            <th>Album</th>
                             <th>Duration</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td align="center"><i class="fas fa-play"></i></td>
-                            <td>Some title</td>
-                            <td>Some artist</td>
-                            <td>Some album</td>
-                            <td>3:45</td>
-                            <td>delete</td>
-                        </tr>
-                        <tr>
-                            <td align="center"><i class="fas fa-play"></i></td>
-                            <td>Some title</td>
-                            <td>Some artist</td>
-                            <td>Some album</td>
-                            <td>3:45</td>
-                        </tr>
-                        <tr>
-                            <td align="center"><i class="fas fa-play"></i></td>
-                            <td>Some title</td>
-                            <td>Some artist</td>
-                            <td>Some album</td>
-                            <td>3:21</td>
-                        </tr>
+                      
+
                         <tr v-for="music in musiclist">
                             <td align="center"><i class="fas fa-play"></i></td>
                             <td>{{music.title}}</td>
                             <td>{{music.artist}}</td>
-                            <td>{{music.album}}</td>
-                            <td>{{music.duration}}</td>
+                            <td>{{music.length}}</td>
+                            <td><button class="btn" type="button" :data-id="music.id" @click="deleteMusic">delete</button></td>
                         </tr>
+        
                     </tbody>
                 </table>
+                </form>
 
             </div>
         
@@ -75,7 +58,26 @@
 <script>
 
   export default{
+  
     props: ['musiclist'],
+    
+    data(){
+      return{
+        id: ''
+      }
+    },
+    
+    methods: {
+      deleteMusic(e){
+        this.id = e.target.getAttribute("data-id")
+        axios.delete('/song/' + this.id)
+        .then(res => {
+          //alert(res.data)
+          window.location.href = "/"
+        })
+      }
+    }
+    
     
   }
 </script>

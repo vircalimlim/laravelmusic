@@ -2,7 +2,7 @@
 @section('content')
 
     <div class="" id="player-content">
-
+    <a href="/" role="button" class="btn btn-default bg-secondary text-light"><strong>< Back</strong></a>
         <div class="mt-5">
           
           <div class="d-flex align-items-center">
@@ -17,7 +17,10 @@
               <button class="btn btn-danger mx-1">Delete</button>
             </form>
           </div>
+
+          <playlist-song id="{{$playlist->id}}" songs="{{$songs}}"></playlist-song>
           
+            
             <div class="table-responsive">
                 <table>
                     <thead>
@@ -25,34 +28,23 @@
                             <th></th>
                             <th>Title</th>
                             <th>Artist</th>
-                            <th>Album</th>
                             <th>Duration</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
+
+
+                    @foreach($playlist->song as $song)
+                    
                         <tr>
                             <td align="center"><i class="fas fa-play"></i></td>
-                            <td>Some title</td>
-                            <td>Some artist</td>
-                            <td>Some album</td>
-                            <td>3:45</td>
+                            <td>{{$song->title}}</td>
+                            <td>{{$song->artist}}</td>
+                            <td>{{$song->length}}</td>
                             <td>delete</td>
                         </tr>
-                        <tr>
-                            <td align="center"><i class="fas fa-play"></i></td>
-                            <td>Some title</td>
-                            <td>Some artist</td>
-                            <td>Some album</td>
-                            <td>3:45</td>
-                        </tr>
-                        <tr>
-                            <td align="center"><i class="fas fa-play"></i></td>
-                            <td>Some title</td>
-                            <td>Some artist</td>
-                            <td>Some album</td>
-                            <td>3:21</td>
-                        </tr>
+                    @endforeach
 
                     </tbody>
                 </table>

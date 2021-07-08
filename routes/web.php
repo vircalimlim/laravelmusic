@@ -23,6 +23,7 @@ Route::get('/', function () {
 Route::get('/song/create', [SongController::class, 'create']);
 Route::post('/song', [SongController::class, 'store']);
 Route::get('/song', [SongController::class, 'index']);
+Route::delete('/song/{id}', [SongController::class, 'destroy']);
 
 Route::get('/playlist/create', [PlaylistController::class, 'create']);
 Route::post('/playlist', [PlaylistController::class, 'store']);
@@ -32,7 +33,7 @@ Route::delete('/playlist/{id}/delete', [PlaylistController::class, 'destroy']);
 Route::patch('/playlist/{id}', [PlaylistController::class, 'update']);
 
 Route::get('/playlistsong/create', [PlaylistSongController::class, 'create']);
-Route::post('/playlistsong', [PlaylistSongController::class, 'store']);
+Route::post('/playlistsong/{playlist}', [PlaylistSongController::class, 'store']);
 Route::get('/playlistsong', [PlaylistSongController::class, 'index']);
 
 

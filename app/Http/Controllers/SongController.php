@@ -14,7 +14,7 @@ class SongController extends Controller
      */
     public function index()
     {
-        //
+        return Song::get();
     }
 
     /**
@@ -35,7 +35,13 @@ class SongController extends Controller
      */
     public function store(Request $request)
     {
-        return "hello";
+        $data = $request->validate([
+          'title' => 'required',
+          'length' => 'required',
+          'artist' => 'required'
+          ]);
+        Song::create($data);
+        return "success";
     }
 
     /**
@@ -78,8 +84,9 @@ class SongController extends Controller
      * @param  \App\Models\Song  $song
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Song $song)
+    public function destroy(Song $id)
     {
-        //
+        $id->delete();
+       // return redirect('/');
     }
 }
