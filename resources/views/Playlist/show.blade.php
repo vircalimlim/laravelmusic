@@ -42,7 +42,7 @@
                             <td>{{$song->title}}</td>
                             <td>{{$song->artist}}</td>
                             <td>{{$song->length}}</td>
-                            <td>delete</td>
+                            <td><Delete songid="{{$song->id}}" id="{{$playlist->id}}"></Delete></td>
                         </tr>
                     @endforeach
 

@@ -25,7 +25,7 @@
                             <td>{{music.title}}</td>
                             <td>{{music.artist}}</td>
                             <td>{{music.length}}</td>
-                            <td><button class="btn" type="button" :data-id="music.id" @click="deleteMusic">delete</button></td>
+                            <td><button class="btn text-light" type="button" :data-id="music.id" @click="deleteMusic">delete</button></td>
                         </tr>
         
                     </tbody>

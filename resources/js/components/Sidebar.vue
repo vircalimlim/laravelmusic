@@ -4,29 +4,18 @@
  <div id="sidebar" v-if="show" class="sidebar">
        <i id="close" @click="toggleMenu"  class="d-inline fas fa-times"></i>
         <div>
-            <img src="djjd.png" class="img-responsive">
+            <img src="https://uxwing.com/wp-content/themes/uxwing/download/10-brands-and-social-media/spotify.png" class="img-responsive">
         </div>
         <div @click="openModal('upload')">
             <a data-toggle="modal" data-target="#upload">Upload Music</a>
         </div>
         <div>
-            <a>All Songs</a>
+            <a href="/">All Songs</a>
         </div>
         <div @click="openModal('playlist')" class="my-3">
             <a data-toggle="modal" data-target="#playlist">Create Playlist</a>
         </div>
-        <div>
-            <a>Playlist 1</a>
-        </div>
-        <div>
-            <a>Playlist 2</a>
-        </div>
-        <div>
-            <a>Playlist 3</a>
-        </div>
-        <div>
-            <a>Playlist 4</a>
-        </div>
+
         <div class="m-0 p-0" v-for="list in datalist">
           <a :href="'playlist/'+list.id">{{list.name}}</a>
         </div>

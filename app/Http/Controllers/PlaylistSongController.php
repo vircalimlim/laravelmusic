@@ -87,8 +87,9 @@ class PlaylistSongController extends Controller
      * @param  \App\Models\PlaylistSong  $playlistSong
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PlaylistSong $playlistSong)
+    public function destroy(Request $request, Playlist $id, $song)
     {
-        //
+        //return $song;
+        $id->song()->detach($song);
     }
 }

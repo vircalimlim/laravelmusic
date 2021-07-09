@@ -35,5 +35,6 @@ Route::patch('/playlist/{id}', [PlaylistController::class, 'update']);
 Route::get('/playlistsong/create', [PlaylistSongController::class, 'create']);
 Route::post('/playlistsong/{playlist}', [PlaylistSongController::class, 'store']);
 Route::get('/playlistsong', [PlaylistSongController::class, 'index']);
+Route::delete('/playlistsong/{id}/delete/{song}', [PlaylistSongController::class, 'destroy']);
 
 
